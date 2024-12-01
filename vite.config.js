@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -8,10 +9,19 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `
-          $primary-color: #ff0000;  // 直接定义变量
-          @import "@/styles/variables.scss";  // 或者引入文件
+         
         `
       }
     }
-  }
+  },
+  server: {
+    port: 8080,
+    open: true,
+    cors: true
+  },
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),  // @ 指向 src 目录
+    }
+  },
 })
