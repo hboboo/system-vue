@@ -3,9 +3,9 @@
     <div class="header-left">
       <img class="logo" src="@/assets/img/logo.svg" />
       <span class="system-title">后台管理系统</span>
-      <div class="sidebar-toggle" @click="toggleSidebar">
-        <el-icon v-if="isExpand"><Expand /></el-icon>
-        <el-icon v-else><Fold /></el-icon>
+      <div class="sidebar-toggle" @click="store.toggleSidebar">
+        <el-icon v-if="store.isCollapse"><Fold /></el-icon>
+        <el-icon v-else><Expand /></el-icon>
       </div>
     </div>
     <div class="header-right">
@@ -58,12 +58,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-
-const isExpand = ref(true);
-function toggleSidebar() {
-  isExpand.value = !isExpand.value;
-}
+import { useSidebarStore } from "@/store/sidebar";
+const store = useSidebarStore();
 </script>
 
 <style lang="scss" scoped>
