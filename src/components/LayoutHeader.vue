@@ -110,7 +110,7 @@ const store = useSidebarStore();
 .user-info {
   display: flex;
   align-items: center;
-  margin: 0 35px 0 18px;
+  margin: 0 15px 0 18px;
 }
 
 :deep(.el-dropdown) {

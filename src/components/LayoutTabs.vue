@@ -2,7 +2,7 @@
   <div class="tabs">
     <el-tabs type="card" class="demo-tabs" closable @tab-remove="removeTab">
       <el-tab-pane v-for="item in editableTabs" :key="item.name" :label="item.title" :name="item.name">
-        {{ item.content }}
+        <!-- {{ item.content }} -->
       </el-tab-pane>
     </el-tabs>
     <el-dropdown class="tabs-control">
@@ -49,6 +49,9 @@ const editableTabs = ref([
 }
 
 :deep(.el-tabs__header) {
+  margin-bottom: 0;
+}
+:deep(.el-tabs__header) {
   height: 32px;
 }
 :deep(.el-tabs__item) {
@@ -59,7 +62,7 @@ const editableTabs = ref([
   height: 28px;
   color: #000;
   background-color: #fff;
-  border: none;
+  border: 1px solid #ccc;
 }
 :deep(.el-dropdown) {
   --el-button-hover-border-color: none;

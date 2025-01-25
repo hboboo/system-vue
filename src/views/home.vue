@@ -5,6 +5,7 @@
       <layout-sidebar />
       <div class="content-box">
         <layout-tabs />
+        <dashboard />
       </div>
     </div>
   </div>
@@ -14,6 +15,7 @@
 import LayoutHeader from "../components/LayoutHeader.vue";
 import LayoutSidebar from "../components/LayoutSidebar.vue";
 import LayoutTabs from "../components/LayoutTabs.vue";
+import dashboard from "./dashboard.vue";
 </script>
 
 <style lang="scss" scoped>
