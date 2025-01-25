@@ -48,10 +48,7 @@ const store = useSidebarStore();
 
 <style lang="scss" scoped>
 .sidebar {
-  position: absolute;
-  top: 65px;
-  left: 0;
-  bottom: 0;
+  min-width: 60px;
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
