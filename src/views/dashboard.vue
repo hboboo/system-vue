@@ -6,7 +6,8 @@
           <img class="card-icon" src="../assets/img/Visitors.svg" />
           <div class="card-content">
             <h3 class="card-content__title">Visitors</h3>
-            <span class="card-content__data">1562</span>
+            <el-statistic :value="outputValue1" />
+            <!-- <span class="card-content__data">1562</span> -->
           </div>
         </el-card>
       </el-col>
@@ -15,7 +16,8 @@
           <img class="card-icon" src="../assets/img/download.svg" />
           <div class="card-content">
             <h3 class="card-content__title">download</h3>
-            <span class="card-content__data">1562</span>
+            <el-statistic :value="outputValue2" />
+            <!-- <span class="card-content__data">1562</span> -->
           </div>
         </el-card>
       </el-col>
@@ -24,7 +26,8 @@
           <img class="card-icon" src="../assets/img/commodity.svg" />
           <div class="card-content">
             <h3 class="card-content__title">commodity</h3>
-            <span class="card-content__data">1562</span>
+            <el-statistic :value="outputValue3" />
+            <!-- <span class="card-content__data">1562</span> -->
           </div>
         </el-card>
       </el-col>
@@ -33,7 +36,8 @@
           <img class="card-icon" src="../assets/img/transaction.svg" />
           <div class="card-content">
             <h3 class="card-content__title">transaction</h3>
-            <span class="card-content__data">1562</span>
+            <el-statistic :value="outputValue4" />
+            <!-- <span class="card-content__data">1562</span> -->
           </div>
         </el-card>
       </el-col>
@@ -67,6 +71,24 @@
           </div>
         </el-card>
       </el-col>
+      <el-col :span="6">
+        <el-card shadow="hover">
+          <el-timeline style="max-width: 600px">
+            <el-timeline-item
+              v-for="(activity, index) in activities"
+              :key="index"
+              :icon="activity.icon"
+              :type="activity.type"
+              :color="activity.color"
+              :size="activity.size"
+              :hollow="activity.hollow"
+              :timestamp="activity.timestamp"
+            >
+              {{ activity.content }}
+            </el-timeline-item>
+          </el-timeline>
+        </el-card>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -75,6 +97,7 @@
 import { ref } from "vue";
 import VChart from "vue-echarts";
 import { use } from "echarts/core";
+import { useTransition } from "@vueuse/core";
 import { BarChart, PieChart, LineChart } from "echarts/charts";
 import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from "echarts/components";
 import { CanvasRenderer } from "echarts/renderers";
@@ -167,7 +190,61 @@ const tableData = [
     name: "Tom",
     address: "No. 189, Grove St, Los Angeles",
   },
+  {
+    date: "2016-05-01",
+    name: "Tom",
+    address: "No. 189, Grove St, Los Angeles",
+  },
 ];
+
+// 时间线
+const activities = [
+  {
+    content: "Custom icon",
+    timestamp: "2018-04-12 20:46",
+    size: "large",
+    type: "primary",
+  },
+  {
+    content: "Custom color",
+    timestamp: "2018-04-03 20:46",
+    color: "#0bbd87",
+  },
+  {
+    content: "Custom size",
+    timestamp: "2018-04-03 20:46",
+    size: "large",
+  },
+  {
+    content: "Custom hollow",
+    timestamp: "2018-04-03 20:46",
+    type: "primary",
+    hollow: true,
+  },
+  {
+    content: "Default node",
+    timestamp: "2018-04-03 20:46",
+  },
+];
+
+// 统计值
+// 创建每个统计项的 `ref`
+const source1 = ref(0);
+const source2 = ref(0);
+const source3 = ref(0);
+const source4 = ref(0);
+
+// 使用 useTransition 为每个统计项创建过渡效果
+const outputValue1 = useTransition(source1, { duration: 1500 });
+const outputValue2 = useTransition(source2, { duration: 1500 });
+const outputValue3 = useTransition(source3, { duration: 1500 });
+const outputValue4 = useTransition(source4, { duration: 1500 });
+
+// 给每个统计项赋值
+source1.value = 172000;
+source2.value = 150000;
+source3.value = 200000;
+source4.value = 300000;
 </script>
 
 <style lang="scss" scoped>
@@ -211,7 +288,7 @@ const tableData = [
 }
 
 .pagination-container {
-  margin: 10px 0 0 305px; /* 可以调整分页与表格之间的间距 */
+  margin: 38px 0 0 305px; /* 可以调整分页与表格之间的间距 */
 }
 
 :deep(.el-card__body) {
