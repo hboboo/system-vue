@@ -38,7 +38,7 @@ import dashboard from "./dashboard.vue";
   overflow: hidden;
 }
 .content {
-  width: 100%; /* 保证内容宽度占满 */
+  width: 100%;
   height: calc(100% - 30px);
   padding: 20px;
   background-color: #f0f2f5;
@@ -47,20 +47,17 @@ import dashboard from "./dashboard.vue";
 
 /* 自定义滚动条样式 */
 ::-webkit-scrollbar {
-  width: 8px; /* 设置滚动条的宽度 */
+  width: 8px;
 }
-
 ::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0.3); /* 滚动条的颜色 */
-  border-radius: 4px; /* 圆角效果 */
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
 }
-
 ::-webkit-scrollbar-track {
-  background-color: #f0f0f0; /* 滚动条轨道的颜色 */
-  border-radius: 4px; /* 圆角效果 */
+  background-color: #f0f0f0;
+  border-radius: 4px;
 }
-
 ::-webkit-scrollbar-corner {
-  background-color: transparent; /* 右下角的颜色 */
+  background-color: transparent;
 }
 </style>

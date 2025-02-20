@@ -7,55 +7,76 @@
       @open="handleOpen"
       @close="handleClose"
     >
-      <el-sub-menu index="1">
-        <template #title>
-          <el-icon><location /></el-icon>
-          <span>Navigator One</span>
+      <template v-for="item in menuData">
+        <template v-if="item.children">
+          <el-sub-menu :index="item.index" :key="item.index">
+            <template #title>
+              <el-icon>
+                <component :is="item.icon" />
+              </el-icon>
+              <span>{{ item.title }}</span>
+            </template>
+            <template v-for="subItem in item.children">
+              <el-sub-menu v-if="subItem.children">
+                <template #title>
+                  <el-icon>
+                    <component :is="subItem.icon" />
+                  </el-icon>
+                  <span>{{ subItem.title }}</span>
+                </template>
+                <el-menu-item v-for="threeItem in subItem.children" :key="threeItem.id" :index="threeItem.index">
+                  {{ threeItem.title }}
+                </el-menu-item>
+              </el-sub-menu>
+              <el-menu-item v-else :index="subItem.index">{{ subItem.title }}</el-menu-item>
+            </template>
+          </el-sub-menu>
         </template>
-        <el-menu-item-group>
-          <template #title><span>Group One</span></template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item two</el-menu-item>
-        </el-menu-item-group>
-        <el-menu-item-group title="Group Two">
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-menu-item-group>
-        <el-sub-menu index="1-4">
-          <template #title><span>item four</span></template>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
-        </el-sub-menu>
-      </el-sub-menu>
-      <el-menu-item index="2">
-        <el-icon><icon-menu /></el-icon>
-        <template #title>Navigator Two</template>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <el-icon><document /></el-icon>
-        <template #title>Navigator Three</template>
-      </el-menu-item>
-      <el-menu-item index="4">
-        <el-icon><setting /></el-icon>
-        <template #title>Navigator Four</template>
-      </el-menu-item>
+        <template v-else>
+          <el-menu-item :index="item.index" :key="item.index">
+            <el-icon>
+              <component :is="item.icon" />
+            </el-icon>
+            <template #title>{{ item.title }}</template>
+          </el-menu-item>
+        </template>
+      </template>
     </el-menu>
   </div>
 </template>
 
 <script setup>
+import { menuData } from "@/components/menu";
 import { useSidebarStore } from "@/store/sidebar";
 const store = useSidebarStore();
+
+console.log(menuData);
 </script>
 
 <style lang="scss" scoped>
 .sidebar {
+  height: 100vh;
+  overflow-y: scroll;
   min-width: 60px;
+  background-color: #e3e3e3;
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 245px;
 }
 :deep(.el-menu) {
-  height: 100%;
   background-color: #e3e3e3;
+}
+
+/* 隐藏滚动条 */
+.sidebar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: transparent;
+}
+.sidebar::-webkit-scrollbar-track {
+  background-color: transparent;
 }
 </style>
