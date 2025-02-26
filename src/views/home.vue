@@ -6,7 +6,13 @@
       <div class="content-box">
         <layout-tabs />
         <div class="content">
-          <dashboard />
+          <router-view v-slot="{ Component }">
+            <transition name="move" mode="out-in">
+              <keep-alive>
+                <component :is="Component" />
+              </keep-alive>
+            </transition>
+          </router-view>
         </div>
       </div>
     </div>
@@ -17,7 +23,6 @@
 import LayoutHeader from "../components/LayoutHeader.vue";
 import LayoutSidebar from "../components/LayoutSidebar.vue";
 import LayoutTabs from "../components/LayoutTabs.vue";
-import dashboard from "./dashboard.vue";
 </script>
 
 <style lang="scss" scoped>
@@ -43,6 +48,7 @@ import dashboard from "./dashboard.vue";
   padding: 20px;
   background-color: #f0f2f5;
   overflow-y: auto;
+  position: relative;
 }
 
 /* 自定义滚动条样式 */
@@ -59,5 +65,27 @@ import dashboard from "./dashboard.vue";
 }
 ::-webkit-scrollbar-corner {
   background-color: transparent;
+}
+
+/* 过渡效果 */
+.move-enter-from {
+  transform: translateX(-100%);
+}
+.move-enter-active {
+  transition: all 0.2s ease;
+}
+.move-enter-to {
+  transform: translateX(0);
+}
+.move-leave-from {
+  transform: translateX(0);
+}
+.move-leave-active {
+  transition: all 0.2s ease;
+  position: absolute;
+  width: 100%;
+}
+.move-leave-to {
+  transform: translateX(100%);
 }
 </style>

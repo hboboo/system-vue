@@ -1,31 +1,43 @@
-import component from 'element-plus/es/components/tree-select/src/tree-select-option.mjs'
-import { createWebHistory, createRouter } from 'vue-router'
-
+import { createWebHistory, createRouter } from "vue-router";
+import Home from "../views/home.vue";
 
 const routes = [
   {
-    path: '/',
-    redirect: '/login'
+    path: "/",
+    redirect: "/dashboard",
   },
   {
-    name: 'login',
-    path: '/login',
-    component: () => import('@/views/pages/login.vue')
+    path: "/",
+    name: "Home",
+    component: Home,
+    children: [
+      {
+        path: "/dashboard",
+        name: "dashboard",
+        component: () => import("@/views/dashboard.vue"),
+      },
+      {
+        path: "/system-user",
+        name: "/system-user",
+        component: () => import("@/views/pages/system/user.vue"),
+      },
+    ],
   },
   {
-    name: 'register',
-    path: '/register',
-    component: () => import('@/views/pages/register.vue')
+    name: "login",
+    path: "/login",
+    component: () => import("@/views/pages/login.vue"),
   },
   {
-    path: '/home',
-    component: () => import('@/views/home.vue')
-  }
-]
+    name: "register",
+    path: "/register",
+    component: () => import("@/views/pages/register.vue"),
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-})
+});
 
-export default router
+export default router;

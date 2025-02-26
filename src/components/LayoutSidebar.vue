@@ -1,11 +1,12 @@
 <template>
   <div class="sidebar">
     <el-menu
-      default-active="2"
+      :default-active="onRoutes"
       class="el-menu-vertical-demo"
       :collapse="store.isCollapse"
       @open="handleOpen"
       @close="handleClose"
+      router
     >
       <template v-for="item in menuData">
         <template v-if="item.children">
@@ -46,11 +47,17 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
 import { menuData } from "@/components/menu";
 import { useSidebarStore } from "@/store/sidebar";
+import { useRoute } from "vue-router";
 const store = useSidebarStore();
 
-console.log(menuData);
+const route = useRoute();
+
+const onRoutes = computed(() => {
+  return route.path;
+});
 </script>
 
 <style lang="scss" scoped>
