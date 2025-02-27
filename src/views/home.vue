@@ -8,7 +8,7 @@
         <div class="content">
           <router-view v-slot="{ Component }">
             <transition name="move" mode="out-in">
-              <keep-alive>
+              <keep-alive :include="tabs.nameList">
                 <component :is="Component" />
               </keep-alive>
             </transition>
@@ -20,9 +20,12 @@
 </template>
 
 <script setup>
-import LayoutHeader from "../components/LayoutHeader.vue";
-import LayoutSidebar from "../components/LayoutSidebar.vue";
-import LayoutTabs from "../components/LayoutTabs.vue";
+import LayoutHeader from "@/components/LayoutHeader.vue";
+import LayoutSidebar from "@/components/LayoutSidebar.vue";
+import LayoutTabs from "@/components/LayoutTabs.vue";
+import { useTabsStore } from "@/store/tabas";
+
+const tabs = useTabsStore();
 </script>
 
 <style lang="scss" scoped>

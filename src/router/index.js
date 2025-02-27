@@ -14,11 +14,19 @@ const routes = [
       {
         path: "/dashboard",
         name: "dashboard",
+        meta: {
+          title: "系统首页",
+          noAuth: true,
+        },
         component: () => import("@/views/dashboard.vue"),
       },
       {
         path: "/system-user",
-        name: "/system-user",
+        name: "system-user",
+        meta: {
+          title: "用户管理",
+          permiss: "11",
+        },
         component: () => import("@/views/pages/system/user.vue"),
       },
     ],
