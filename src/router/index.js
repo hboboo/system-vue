@@ -83,6 +83,15 @@ const routes = [
         },
         component: () => import("@/views/table/import.vue"),
       },
+      {
+        path: "/echarts",
+        name: "echarts",
+        meta: {
+          title: "echarts图表",
+          permiss: "42",
+        },
+        component: () => import("@/views/chart/echarts.vue"),
+      },
     ],
   },
   {
