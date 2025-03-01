@@ -47,6 +47,42 @@ const routes = [
         },
         component: () => import("@/views/system/menu.vue"),
       },
+      {
+        path: "/table",
+        name: "basetable",
+        meta: {
+          title: "基础表格",
+          permiss: "31",
+        },
+        component: () => import("@/views/table/baseTable.vue"),
+      },
+      {
+        path: "/table-editor",
+        name: "table-editor",
+        meta: {
+          title: "可编辑表格",
+          permiss: "32",
+        },
+        component: () => import("@/views/table/tableEditor.vue"),
+      },
+      {
+        path: "/export",
+        name: "export",
+        meta: {
+          title: "导出Excel",
+          permiss: "34",
+        },
+        component: () => import("@/views/table/export.vue"),
+      },
+      {
+        path: "/import",
+        name: "import",
+        meta: {
+          title: "导入Excel",
+          permiss: "33",
+        },
+        component: () => import("@/views/table/import.vue"),
+      },
     ],
   },
   {
