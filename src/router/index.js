@@ -27,7 +27,16 @@ const routes = [
           title: "用户管理",
           permiss: "11",
         },
-        component: () => import("@/views/pages/system/user.vue"),
+        component: () => import("@/views/system/user.vue"),
+      },
+      {
+        path: "/system-role",
+        name: "system-role",
+        meta: {
+          title: "角色管理",
+          permiss: "12",
+        },
+        component: () => import("@/views/system/role.vue"),
       },
     ],
   },

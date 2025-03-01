@@ -7,7 +7,6 @@
           <div class="card-content">
             <h3 class="card-content__title">Visitors</h3>
             <el-statistic :value="outputValue1" />
-            <!-- <span class="card-content__data">1562</span> -->
           </div>
         </el-card>
       </el-col>
@@ -17,7 +16,6 @@
           <div class="card-content">
             <h3 class="card-content__title">download</h3>
             <el-statistic :value="outputValue2" />
-            <!-- <span class="card-content__data">1562</span> -->
           </div>
         </el-card>
       </el-col>
@@ -27,7 +25,6 @@
           <div class="card-content">
             <h3 class="card-content__title">commodity</h3>
             <el-statistic :value="outputValue3" />
-            <!-- <span class="card-content__data">1562</span> -->
           </div>
         </el-card>
       </el-col>
@@ -37,7 +34,6 @@
           <div class="card-content">
             <h3 class="card-content__title">transaction</h3>
             <el-statistic :value="outputValue4" />
-            <!-- <span class="card-content__data">1562</span> -->
           </div>
         </el-card>
       </el-col>

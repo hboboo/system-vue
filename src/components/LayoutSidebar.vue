@@ -1,13 +1,6 @@
 <template>
   <div class="sidebar">
-    <el-menu
-      :default-active="onRoutes"
-      class="el-menu-vertical-demo"
-      :collapse="store.isCollapse"
-      @open="handleOpen"
-      @close="handleClose"
-      router
-    >
+    <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" :collapse="store.isCollapse" router>
       <template v-for="item in menuData">
         <template v-if="item.children">
           <el-sub-menu :index="item.index" :key="item.index">
@@ -18,7 +11,7 @@
               <span>{{ item.title }}</span>
             </template>
             <template v-for="subItem in item.children">
-              <el-sub-menu v-if="subItem.children">
+              <el-sub-menu v-if="subItem.children" :index="subItem.index" :key="subItem.index">
                 <template #title>
                   <el-icon>
                     <component :is="subItem.icon" />
@@ -51,6 +44,7 @@ import { computed } from "vue";
 import { menuData } from "@/components/menu";
 import { useSidebarStore } from "@/store/sidebar";
 import { useRoute } from "vue-router";
+
 const store = useSidebarStore();
 
 const route = useRoute();

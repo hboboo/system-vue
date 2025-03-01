@@ -6,3 +6,10 @@ export const fetchUserData = () => {
     method: "get",
   });
 };
+
+export const fetchRoleData = () => {
+  return service({
+    url: "./mock/role.json",
+    method: "get",
+  });
+};
