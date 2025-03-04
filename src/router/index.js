@@ -92,6 +92,14 @@ const routes = [
         },
         component: () => import("@/views/chart/echarts.vue"),
       },
+      {
+        path: "/ucenter",
+        name: "ucenter",
+        meta: {
+          title: "个人中心",
+        },
+        component: () => import("@/views/pages/ucenter.vue"),
+      },
     ],
   },
   {
@@ -103,6 +111,14 @@ const routes = [
     name: "register",
     path: "/register",
     component: () => import("@/views/pages/register.vue"),
+  },
+  {
+    path: "/reset-pwd",
+    meta: {
+      title: "重置密码",
+      noAuth: true,
+    },
+    component: () => import("@/views/pages/ResetPassword.vue"),
   },
 ];
 
