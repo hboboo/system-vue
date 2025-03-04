@@ -2,60 +2,107 @@
   <div class="login-background">
     <div class="login-box">
       <div class="login-title">
-        <img src="../../assets/img/logo.svg">
+        <img src="../../assets/img/logo.svg" />
         <span>后台管理系统</span>
       </div>
-      <el-form
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        class="login-form"
-      >
-        <el-form-item  prop="name">
-          <el-input v-model="ruleForm.name" placeholder="用户名" style="width: 350px">
-            <template #prepend><el-icon><User /></el-icon></template>
-          </el-input>  
+      <el-form ref="loginForm" :model="param" :rules="rules" class="login-form">
+        <el-form-item prop="username">
+          <el-input v-model="param.username" placeholder="用户名" style="width: 350px">
+            <template #prepend
+              ><el-icon><User /></el-icon
+            ></template>
+          </el-input>
         </el-form-item>
-        <el-form-item  prop="password">
-          <el-input v-model="ruleForm.password" placeholder="密码" type="password" show-password style="width: 350px">
-            <template #prepend><el-icon><Lock /></el-icon></template>
-          </el-input> 
+        <el-form-item prop="password">
+          <el-input
+            v-model="param.password"
+            placeholder="密码"
+            type="password"
+            @keyup.enter="submitForm(loginForm)"
+            show-password
+            style="width: 350px"
+          >
+            <template #prepend
+              ><el-icon><Lock /></el-icon
+            ></template>
+          </el-input>
         </el-form-item>
         <div class="login-options">
-          <el-checkbox v-model="ruleForm.savePassword" label="记住密码" size="large" />
-          <el-link type="primary">忘记密码</el-link>
+          <el-checkbox v-model="checked" label="记住密码" size="large" />
+          <el-link type="primary" @click="router.push('/reset-pwd')">忘记密码</el-link>
         </div>
-        <el-button type="primary" class="login-button" @click="handleLogin">登录</el-button>
+        <el-button type="primary" class="login-button" @click="submitForm(loginForm)">登录</el-button>
         <div class="login-footer">
           <h5 class="login-tips">tips: 用户名和密码随便填</h5>
           <div class="login-register">
             <span>没有账号？</span>
-            <el-link type="primary">立即注册</el-link>
+            <el-link type="primary" @click="router.push('/register')">立即注册</el-link>
           </div>
         </div>
-      </el-form>  
+      </el-form>
     </div>
   </div>
 </template>
 
-<script  setup>
-import { ref, reactive} from 'vue'
-import router from '../../router';
+<script setup>
+import { ref, reactive } from "vue";
+import { useTabsStore } from "../../store/tabas";
+import { usePermissStore } from "../../store/permiss";
+import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
 
-const ruleForm = reactive({
-  name: '',
-  password: '',
-  savePassword: null,
-})
+const router = useRouter();
+const loginForm = ref();
+const checked = ref(false);
 
-const rules = reactive({
-  name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+// 获取本地存储的登录信息
+const lgStr = localStorage.getItem("login-param");
+const defParam = lgStr ? JSON.parse(lgStr) : null;
+checked.value = lgStr ? true : false;
+
+const param = reactive({
+  username: defParam ? defParam.username : "",
+  password: defParam ? defParam.password : "",
 });
 
-function handleLogin() {
-  router.push('/home')
-}
+const rules = {
+  username: [
+    {
+      required: true,
+      message: "请输入用户名",
+      trigger: "blur",
+    },
+  ],
+  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+};
+
+const permiss = usePermissStore();
+const submitForm = (formEl) => {
+  if (!formEl) return;
+  formEl.validate((valid) => {
+    if (valid) {
+      ElMessage.success("登录成功");
+      localStorage.setItem("vuems_name", param.username);
+      const keys = permiss.defaultList[param.username == "admin" ? "admin" : "user"];
+      permiss.handleSet(keys);
+
+      // 记住密码功能
+      if (checked.value) {
+        localStorage.setItem("login-param", JSON.stringify(param));
+      } else {
+        localStorage.removeItem("login-param");
+      }
+
+      router.push("/");
+    } else {
+      ElMessage.error("登录失败");
+      return false;
+    }
+  });
+};
+
+const tabs = useTabsStore();
+tabs.clearTabs();
 </script>
 
 <style lang="scss" scoped>
@@ -84,7 +131,7 @@ function handleLogin() {
       img {
         width: 35px;
       }
-      
+
       span {
         font-size: 22px;
         color: #333;
@@ -100,7 +147,7 @@ function handleLogin() {
       align-items: center;
     }
     .login-options {
-      display: flex;    
+      display: flex;
       justify-content: space-between;
       width: 350px;
     }
@@ -118,7 +165,7 @@ function handleLogin() {
         align-items: center;
       }
     }
-  } 
+  }
 }
 
 :deep(.el-button) {
@@ -126,5 +173,4 @@ function handleLogin() {
   height: 40px;
   margin-top: 5px;
 }
-
 </style>

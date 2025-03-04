@@ -1,4 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router";
+import { usePermissStore } from "../store/permiss";
 import Home from "../views/home.vue";
 
 const routes = [
@@ -103,13 +104,19 @@ const routes = [
     ],
   },
   {
-    name: "login",
     path: "/login",
+    meta: {
+      title: "登录",
+      noAuth: true,
+    },
     component: () => import("@/views/pages/login.vue"),
   },
   {
-    name: "register",
     path: "/register",
+    meta: {
+      title: "注册",
+      noAuth: true,
+    },
     component: () => import("@/views/pages/register.vue"),
   },
   {
@@ -120,11 +127,42 @@ const routes = [
     },
     component: () => import("@/views/pages/ResetPassword.vue"),
   },
+  {
+    path: "/404",
+    meta: {
+      title: "找不到页面",
+      noAuth: true,
+    },
+    component: () => import("@/views/pages/404.vue"),
+  },
+  {
+    path: "/403",
+    meta: {
+      title: "没有权限",
+      noAuth: true,
+    },
+    component: () => import("@/views/pages/403.vue"),
+  },
+  { path: "/:path(.*)", redirect: "/404" },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const role = localStorage.getItem("vuems_name");
+  const permiss = usePermissStore();
+
+  if (!role && to.meta.noAuth !== true) {
+    next("/login");
+  } else if (typeof to.meta.permiss == "string" && !permiss.key.includes(to.meta.permiss)) {
+    // 如果没有权限，则进入403
+    next("/403");
+  } else {
+    next();
+  }
 });
 
 export default router;
