@@ -1,4 +1,4 @@
-import { createWebHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter, createWebHashHistory } from "vue-router";
 import { usePermissStore } from "../store/permiss";
 import Home from "../views/home.vue";
 
@@ -147,7 +147,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 });
 
