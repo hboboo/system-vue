@@ -147,7 +147,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(),
   routes,
 });
 
@@ -155,11 +155,13 @@ router.beforeEach((to, from, next) => {
   const role = localStorage.getItem("vuems_name");
   const permiss = usePermissStore();
 
-  if (!role && to.path !== "/dashboard" && to.meta.noAuth !== true) {
+  if (to.meta.noAuth === true) {
+    next();
+  } else if (!role && to.path !== "/dashboard") {
     next("/login");
-  } else if (typeof to.meta.permiss == "string" && !permiss.key.includes(to.meta.permiss)) {
-    // 如果没有权限，则进入403
-    next("/403");
+  } else if (typeof to.meta.permiss === "string" && !permiss.key.includes(to.meta.permiss)) {
+    // 如果没有权限，则进入404
+    next("/404");
   } else {
     next();
   }
