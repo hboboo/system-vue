@@ -24,7 +24,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"), // @ 指向 src 目录
     },
   },
-  // base: "./", //设置项目的根目录
+  base: "./", //设置项目的根目录
   build: {
     outDir: "docs", // 打包文件的输出目录
   },
