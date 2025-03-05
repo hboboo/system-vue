@@ -3,7 +3,7 @@
     <el-menu :default-active="onRoutes" class="el-menu-vertical-demo" :collapse="store.isCollapse" router>
       <template v-for="item in menuData">
         <template v-if="item.children">
-          <el-sub-menu :index="item.index" :key="item.index">
+          <el-sub-menu :index="item.index" :key="item.index" v-permiss="item.id">
             <template #title>
               <el-icon>
                 <component :is="item.icon" />
@@ -11,7 +11,7 @@
               <span>{{ item.title }}</span>
             </template>
             <template v-for="subItem in item.children">
-              <el-sub-menu v-if="subItem.children" :index="subItem.index" :key="subItem.index">
+              <el-sub-menu v-if="subItem.children" :index="subItem.index" :key="subItem.index" v-permiss="item.id">
                 <template #title>
                   <el-icon>
                     <component :is="subItem.icon" />
@@ -22,12 +22,12 @@
                   {{ threeItem.title }}
                 </el-menu-item>
               </el-sub-menu>
-              <el-menu-item v-else :index="subItem.index">{{ subItem.title }}</el-menu-item>
+              <el-menu-item v-else :index="subItem.index" v-permiss="item.id">{{ subItem.title }}</el-menu-item>
             </template>
           </el-sub-menu>
         </template>
         <template v-else>
-          <el-menu-item :index="item.index" :key="item.index">
+          <el-menu-item :index="item.index" :key="item.index" v-permiss="item.id">
             <el-icon>
               <component :is="item.icon" />
             </el-icon>
@@ -44,7 +44,7 @@ import { computed } from "vue";
 import { menuData } from "@/components/menu";
 import { useSidebarStore } from "@/store/sidebar";
 import { useRoute } from "vue-router";
-
+import { usePermissStore } from "@/store/permiss";
 const store = useSidebarStore();
 
 const route = useRoute();
@@ -52,6 +52,8 @@ const route = useRoute();
 const onRoutes = computed(() => {
   return route.path;
 });
+
+console.log(usePermissStore().key);
 </script>
 
 <style lang="scss" scoped>
