@@ -33,7 +33,8 @@
         </div>
         <el-button type="primary" class="login-button" @click="submitForm(loginForm)">登录</el-button>
         <div class="login-footer">
-          <h5 class="login-tips">tips: 用户名和密码随便填</h5>
+          <p class="login-tips">tips: 管理员账号 admin 密码随便填</p>
+          <p class="login-tips">用户账号 随便填</p>
           <div class="login-register">
             <span>没有账号？</span>
             <el-link type="primary" @click="router.push('/register')">立即注册</el-link>
@@ -154,6 +155,7 @@ tabs.clearTabs();
     .login-footer {
       width: 350px;
       .login-tips {
+        padding-top: 5px;
         font-size: 14px;
         color: #ccc;
         font-weight: 400;

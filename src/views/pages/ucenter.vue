@@ -89,7 +89,7 @@ import MessageTabs from "@/components/MessageTabs.vue";
 import { Plus } from "@element-plus/icons-vue";
 import { ElMessage } from "element-plus";
 
-const name = ref("admin");
+const name = localStorage.getItem("vuems_name") || "huangbo";
 const activeName = ref("label1");
 
 const form = reactive({

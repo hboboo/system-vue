@@ -10,21 +10,15 @@
     </div>
     <div class="header-right">
       <div class="header-controls">
-        <div class="btn-icon">
-          <el-tooltip content="主题颜色" placement="top">
-            <el-icon>
-              <Setting />
-            </el-icon>
-          </el-tooltip>
-        </div>
-        <div class="btn-icon">
-          <el-tooltip content="消息通知" placement="top">
+        <div class="btn-icon" @click="router.push('/ucenter')">
+          <el-tooltip :content="message ? `有${message}条未读消息` : `消息中心`" placement="bottom">
             <el-icon>
               <Bell />
             </el-icon>
           </el-tooltip>
+          <span class="btn-bell-badge" v-if="message"></span>
         </div>
-        <div class="btn-icon">
+        <div class="btn-icon" @click="setFullScreen">
           <el-tooltip content="全屏" placement="top">
             <el-icon>
               <FullScreen />
@@ -33,22 +27,19 @@
         </div>
       </div>
       <div class="user-info">
-        <el-avatar :size="30" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" />
+        <el-avatar :size="30" :src="imgurl" />
         <!-- 用户下拉菜单 -->
         <el-dropdown trigger="click">
           <span>
-            Dropdown List
+            {{ username }}
             <el-icon>
               <arrow-down />
             </el-icon>
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>Action 1</el-dropdown-item>
-              <el-dropdown-item>Action 2</el-dropdown-item>
-              <el-dropdown-item>Action 3</el-dropdown-item>
-              <el-dropdown-item disabled>Action 4</el-dropdown-item>
-              <el-dropdown-item divided>Action 5</el-dropdown-item>
+              <el-dropdown-item @click="router.push('/ucenter')">个人中心</el-dropdown-item>
+              <el-dropdown-item divided @click="logout">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -59,7 +50,27 @@
 
 <script setup>
 import { useSidebarStore } from "@/store/sidebar";
+import { useRouter } from "vue-router";
+import imgurl from "../assets/img/user.jpg";
+const router = useRouter();
 const store = useSidebarStore();
+
+const message = 2;
+const username = localStorage.getItem("vuems_name") || "huangbo";
+
+const setFullScreen = () => {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  } else {
+    document.body.requestFullscreen.call(document.body);
+  }
+};
+
+const logout = () => {
+  localStorage.removeItem("vuems_token");
+  localStorage.removeItem("vuems_name");
+  router.push("/login");
+};
 </script>
 
 <style lang="scss" scoped>
@@ -102,6 +113,7 @@ const store = useSidebarStore();
 }
 .btn-icon {
   display: flex;
+  position: relative;
   align-items: center;
   margin: 0 7px;
   color: #ffffff;
@@ -111,6 +123,16 @@ const store = useSidebarStore();
   display: flex;
   align-items: center;
   margin: 0 15px 0 18px;
+}
+.btn-bell-badge {
+  position: absolute;
+  right: -3.4px;
+  top: -3.4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  background: #f56c6c;
+  color: var(--header-text-color);
 }
 
 :deep(.el-dropdown) {

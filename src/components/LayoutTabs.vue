@@ -102,6 +102,7 @@ watch(
 <style lang="scss" scoped>
 .tabs {
   position: relative;
+  background-color: #fff;
 }
 .tabs-control {
   position: absolute;

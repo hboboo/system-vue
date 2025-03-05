@@ -2,54 +2,77 @@
   <div class="register-background">
     <div class="register-box">
       <div class="register-title">
-        <img src="../../assets/img/logo.svg">
+        <img src="../../assets/img/logo.svg" />
         <span>后台管理系统</span>
       </div>
-      <el-form
-        ref="ruleFormRef"
-        :model="ruleForm"
-        :rules="rules"
-        class="register-form"
-      >
-        <el-form-item  prop="name">
-          <el-input v-model="ruleForm.name" placeholder="用户名" style="width: 350px">
-            <template #prepend><el-icon><User /></el-icon></template>
-          </el-input>  
-      </el-form-item>
-        <el-form-item  prop="email">
-          <el-input v-model="ruleForm.name" placeholder="邮箱" style="width: 350px">
-            <template #prepend><el-icon><Message /></el-icon></template>
-          </el-input>  
+      <el-form ref="register" :model="param" :rules="rules" class="register-form">
+        <el-form-item prop="username">
+          <el-input v-model="param.username" placeholder="用户名" style="width: 350px">
+            <template #prepend
+              ><el-icon><User /></el-icon
+            ></template>
+          </el-input>
         </el-form-item>
-        <el-form-item  prop="password">
-          <el-input v-model="ruleForm.password" placeholder="密码" type="password" show-password style="width: 350px">
-            <template #prepend><el-icon><Lock /></el-icon></template>
-          </el-input> 
+        <el-form-item prop="email">
+          <el-input v-model="param.email" placeholder="邮箱" style="width: 350px">
+            <template #prepend
+              ><el-icon><Message /></el-icon
+            ></template>
+          </el-input>
         </el-form-item>
-        <el-button type="primary" class="register-button">注册</el-button>
+        <el-form-item prop="password">
+          <el-input v-model="param.password" placeholder="密码" type="password" show-password style="width: 350px">
+            <template #prepend
+              ><el-icon><Lock /></el-icon
+            ></template>
+          </el-input>
+        </el-form-item>
+        <el-button type="primary" class="register-button" @click="submitForm(register)">注册</el-button>
         <div class="register-footer">
           <div class="register-link">
             <span>已有账号，</span>
-            <el-link type="primary">立即登录</el-link>
+            <el-link type="primary" @click="router.push('/login')">立即登录</el-link>
           </div>
         </div>
-      </el-form>  
+      </el-form>
     </div>
   </div>
 </template>
 
-<script  setup>
-import { ref, reactive} from 'vue'
-const ruleForm = reactive({
-  name: '',
-  password: '',
-  savePassword: null,
-  email: '',
-})
-const rules = reactive({
-  name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-  password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
+<script setup>
+import { ref, reactive } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
+const param = reactive({
+  username: "",
+  password: "",
+  email: "",
 });
+
+const rules = {
+  username: [
+    {
+      required: true,
+      message: "请输入用户名",
+      trigger: "blur",
+    },
+  ],
+  password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+  email: [{ required: true, message: "请输入邮箱", trigger: "blur" }],
+};
+
+const register = ref();
+const submitForm = (formEl) => {
+  if (!formEl) return;
+  formEl.validate((valid) => {
+    if (valid) {
+      ElMessage.success("注册成功，请登录");
+      router.push("/login");
+    } else {
+      return false;
+    }
+  });
+};
 </script>
 
 <style lang="scss" scoped>
@@ -100,7 +123,7 @@ const rules = reactive({
         margin-top: 14px;
       }
     }
-  } 
+  }
 }
 
 :deep(.el-button) {
@@ -108,5 +131,4 @@ const rules = reactive({
   height: 40px;
   margin-top: 5px;
 }
-
 </style>
